@@ -1,7 +1,46 @@
-function createBotMsg(today, checkedItems) {
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
+function createSlackMessage(isFinish, inputTimeMsg) {  
+  var m = ''
+  
+  switch (isFinish === true) {
+    case (true):
+      m = '*' + inputTimeMsg + '*' + '\n'
+      + 'おはようございます！' + '\n'
+      + '本日の出勤時刻は入力完了しています。';
+      break;
+      
+    case (false):
+      m = '*' + inputTimeMsg + '*' + '\n'
+        + 'う～ん、、、' + '\n'
+        + '出勤時刻が正しく入力できていないかもしれませんね…？';
+      break
+  };
+  
+  var doubleLine = '=============================================';
+  Logger.log('\n' + doubleLine + 
+             '\n' + 'for Slack' + 
+             '\n' + doubleLine + 
+             '\n' + m +
+             '\n' + doubleLine);
+  
+  return m;
+};
 
-}
-
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
 function postMessage(m) {
   var token = PropertiesService.getScriptProperties().getProperty('SLACK_ACCESS_TOKEN');
 
@@ -35,10 +74,26 @@ function postMessage(m) {
 //  );
 }
 
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
 function getSlackReaction() {
 
 }
 
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
 function getSlackMsg() {
 
 }

@@ -12,7 +12,7 @@ function CheckMyRoutines() {
   setNextTrigger
   
   var today = Moment.moment();
-  var todayRowIndex = searchExecutionDateRow(today, routineCheckSheet);  
+  var todayRowIndex = getExecutionDateRow(today, routineCheckSheet);  
   
   var currentInputTime = getInputTime(today, todayRowIndex);
 
@@ -51,11 +51,11 @@ function CheckMyRoutines() {
  * @return {number} 実行日が入力されている行数
  * @customfunction
  */
-function searchExecutionDateRow(dateMomentObject, targetSheet) {
+function getExecutionDateRow(dateMomentObject, targetSheet) {
   var formatToday = dateMomentObject.format('YYYY/MM/DD (ddd)');
   Logger.log('【実行日】 %s', formatToday);  
 
-  //3行目から最終行まで精査
+  //3行目から最終行まで走査
   const FIRST_DATA_ROW = 3
   var firstDateIndex = FIRST_DATA_ROW - 1;
   var lastDateIndex = values.length - 1;
@@ -91,10 +91,10 @@ function getInputTime(dateMomentObject, targetIndex) {
   var inputHourValue   = values[targetIndex][hourColIndex];
   var inputMinuteValue = values[targetIndex][minuteColIndex];
 
-  var inputCheckReturnObject = checkDoneToInput(inputHourValue, inputMinuteValue);
-  
+  var blankItem = getBlankItem(inputHourValue, inputMinuteValue);
+
   var curentInputTime = hasDoneInput(
-    inputCheckReturnObject.isInput,
+    hasDoneInput(blankItem),
     dateMomentObject,
     inputHourValue,
     inputMinuteValue
@@ -104,54 +104,60 @@ function getInputTime(dateMomentObject, targetIndex) {
 };
 
 /**
- * 指定の行に、時・分が入力されているかチェックする
+ * 指定の行に空欄があれば、空欄の要素を返す
  * 
  * @param {number} 時
  * @param {number} 分
- * @return {Object} チェック結果（入力されているかどうか、空欄の項目）
+ * @return {string} 空欄の要素
  * @customfunction
  */
-function checkDoneToInput(inputHour, inputMinute) {
+function getBlankItem(inputHour, inputMinute) {
+var blankItem =""
+
   switch (true) {
     case (inputHour === '' && inputMinute === ''):
-      var doubleEmptyCaseObject = {
-        isInput  : false,
-        blankItem: '時刻'
-      };
-      return doubleEmptyCaseObject;
+      blankItem = '時刻';
+      return blankItem;
       
     case (inputHour === ''):
-      var hourEmptyCaseObject = {
-        isInput  : false,
-        blankItem: '時'
-      };
-      return hourEmptyCaseObject;
+      blankItem = '時';
+      return blankItem;
       
-    case (inputMinute === ''):      
-      var minuteEmptyCaseObject = {
-        isInput  : false,
-        blankItem: '分'
-      };
-      return minuteEmptyCaseObject;
+    case (inputMinute === ''):
+      blankItem = '分';
+      return blankItem;
 
     default:
-      var okCaseObject = {
-        isInput  : true,
-        blankItem: ''
-      };
-      return okCaseObject;
+      blankItem ='';
+      return blankItem;
   };
 };
 
 /**
- * 指定の行に空欄があれば、どこが空欄かログを吐く
+ * 指定の行に、時・分が入力されているかチェックする
  * 
- * @param {number} 時
- * @param {number} 分
- * @return {Object} チェック結果（入力されている時間を空白に。＆ ログ）
+ * @param {string} 空欄の要素
+ * @return {boolean} 入力できているかどうか
  * @customfunction
  */
-function hasDoneInput(isInput, dateMomentObject, hourValue, minuteValue) {
+function hasDoneInput(blankItem) {
+  switch (blankItem) {
+    case '':
+      return true;
+    default:
+      return false;
+  }
+};
+
+/**
+ * 入力できていれば、連結してMomentオブジェクトに変換する
+ * 
+ * @param {boolean} 入力できているかどうか
+ * @param {object} 実行日当日のMomentオブジェクト
+ * @return {object} 'HH:mm'形式のMomentオブジェクト
+ * @customfunction
+ */
+function getInputTime(isInput, dateMomentObject, hourValue, minuteValue) {
   switch (isInput === true) {
     case (true):
       return formatInputTime(dateMomentObject, hourValue, minuteValue);
@@ -160,26 +166,8 @@ function hasDoneInput(isInput, dateMomentObject, hourValue, minuteValue) {
   };
 };
 
-function createInputTimeMessage(inputTime, blankItem) { 
-  var emptyAlert = createEmptyAlert(inputTime, blankItem);
-
-  var inputTimeMessage = '【入力時刻】 ' + inputTime + '\n'
-                       + emptyAlert;
-
-  return inputTimeMessage;
-};
-
-function createEmptyAlert(inputTime, blankItem) {
-  switch (inputTime === '') {
-    case (true):
-      return '▼注意！▼ 「' + blankItem + '」が空欄です。';
-    case (false):
-      return '▼OK!!▼ 「時・分」は共にちゃんと入力されてますね。';
-  };
-};
-
 /**
-* Momentオブジェクトを'HH:mm'形式に変換
+ * Momentオブジェクトを'HH:mm'形式に変換
  * 
  * @param {Object} Momentオブジェクト
  * @param {number} 時
@@ -189,15 +177,49 @@ function createEmptyAlert(inputTime, blankItem) {
  */
 function formatInputTime(dateMomentObject, hourValue, minuteValue) {
   var inputTimeObject = Moment.moment([
-    /*年*/ dateMomentObject.format('YYYY'),
-    /*月*/ dateMomentObject.format('MM') ,
-    /*日*/ dateMomentObject.format('DD'),
-    /*時*/ hourValue,
-    /*分*/ minuteValue,
-    /*秒*/ 0
+    dateMomentObject.format('YYYY'), /*年*/ 
+    dateMomentObject.format('MM'),   /*月*/
+    dateMomentObject.format('DD'),   /*日*/
+    hourValue,   /*時*/ 
+    minuteValue, /*分*/ 
+    0            /*秒*/
   ]);
   
   return inputTimeObject.format('HH:mm');
+};
+
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
+function createInputTimeMessage(inputTime, blankItem) { 
+  var emptyAlert = createEmptyAlert(inputTime, blankItem);
+
+  var inputTimeMessage = '【入力時刻】 ' + inputTime + '\n'
+                       + emptyAlert;
+
+  return inputTimeMessage;
+};
+
+/**
+ * 空欄があるかどうかのメッセージを作成する
+ * 
+ * @param {Object} Momentオブジェクトの'HH:mm'形式
+ * @param (String} 空欄の要素
+ * @return {String} 作成したメッセージ
+ * @customfunction
+ */
+function createEmptyAlert(inputTime, blankItem) {
+  switch (inputTime === '') {
+    case (true):
+      return '▼注意！▼ 「' + blankItem + '」が空欄です。';
+    case (false):
+      return '▼OK!!▼ 「時・分」は共にちゃんと入力されてますね。';
+  };
 };
 
 /**
@@ -218,31 +240,4 @@ function isCorrectTime(timeMomentObject, inputTime, tmpReturns) {
     case (false): //空欄アリなど
       return false;
   };
-};
-
-function createSlackMessage(isFinish, inputTimeMsg) {  
-  var m = ''
-  
-  switch (isFinish === true) {
-    case (true):
-      m = '*' + inputTimeMsg + '*' + '\n'
-      + 'おはようございます！' + '\n'
-      + '本日の出勤時刻は入力完了しています。';
-      break;
-      
-    case (false):
-      m = '*' + inputTimeMsg + '*' + '\n'
-        + 'う～ん、、、' + '\n'
-        + '出勤時刻が正しく入力できていないかもしれませんね…？';
-      break
-  };
-  
-  var doubleLine = '=============================================';
-  Logger.log('\n' + doubleLine + 
-             '\n' + 'for Slack' + 
-             '\n' + doubleLine + 
-             '\n' + m +
-             '\n' + doubleLine);
-  
-  return m;
 };

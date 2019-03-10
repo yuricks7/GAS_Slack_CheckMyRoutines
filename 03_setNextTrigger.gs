@@ -1,3 +1,11 @@
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
 function setNextTrigger() {
   Logger.log('次のトリガーを設定しました。')
      
@@ -19,6 +27,15 @@ function setNextTrigger() {
 }
 
 /* 全部消すやつ */
+
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
 function deleteTriggers(functionName) {
 
   var triggers = ScriptApp.getProjectTriggers();
@@ -30,6 +47,15 @@ function deleteTriggers(functionName) {
 }
 
 /* 10:25 か 11:25 か 11:55 にセット */
+
+/**
+ * ●●する
+ * 
+ * @param {●●} ●●
+ * @param {●●} ●●
+ * @return {●●} ●●
+ * @customfunction
+ */
 function setNextTime(date, hour, minute) {
   
   // 現在10:25なら11:25にセット
