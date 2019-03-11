@@ -24,4 +24,4 @@ It works on Google Spreadsheet and posts messages to your Slack workspace via Go
 
 7. Then, it posts the message to your Slack workspace.
 
-### Enjoy Your Routines!
+### Enjoy Your Routines!👋
