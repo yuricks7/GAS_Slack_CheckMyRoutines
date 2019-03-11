@@ -1,37 +1,27 @@
-## Welcome to GitHub Pages
+# Welcome to My Routine Check Script.
 
-You can use the [editor on GitHub](https://github.com/yuricks7/gas-checkMyRutines/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## What is 'My Routine Check Script'?
+It works on Google Spreadsheet and posts messages to your Slack workspace via Google Apps Script.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## How to Use it?
+1. Set on Google Spreadsheet as Container bound Script.
 
-### Markdown
+2. Set your Slack Access Token on Propety Service in your script.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+3. Input Dates into Column A.
 
-```markdown
-Syntax highlighted code block
+4. Input Hour and Minutes of Routine Time into Column C and D every day.  
+*| Date | Days for Week | Hour | Minute |*
 
-# Header 1
-## Header 2
-### Header 3
+5. If it's 10:25, 10:55 or 11:55, it checks your input whether finished or not.  
+(You can change the Triggers as you like.)
 
-- Bulleted
-- List
+6. It is depend on the situation.  
+(It is made in Japanese at first but You can change the messages as you like.)
 
-1. Numbered
-2. List
+- If you've NOT finished or it is INCORRECT, it creates an alert.
+- If you've done, it creates a praise message.
 
-**Bold** and _Italic_ and `Code` text
+7. Then, it posts the message to your Slack workspace.
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/yuricks7/gas-checkMyRutines/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Enjoy Your Routines!
