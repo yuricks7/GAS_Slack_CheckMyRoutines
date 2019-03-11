@@ -4,19 +4,13 @@
  * @param {string} トリガーを操作する関数名
  */
 function setNextTrigger(functionName) {
-  // いったん全部消す
-  deleteTriggers(functionName);
+  deleteAllTriggersNamed(functionName);
   Logger.log('トリガーを全削除しました。');
   
-  // 現在時刻を取得
-  var date = new Date();
-  
-  // 設定時刻を取得
-  var targetDate = setNextTime(date);
+  var date            = new Date();
+  var nextTriggerTime = setNextTime(date);
 
-  // トリガーをセット
-  ScriptApp.newTrigger(functionName).timeBased().at(targetDate).create();
-
+  ScriptApp.newTrigger(functionName).timeBased().at(nextTriggerTime).create();
   Logger.log('次のトリガーを設定しました。');
 }
 
@@ -25,7 +19,7 @@ function setNextTrigger(functionName) {
  * 
  * @param {string} トリガーを削除する関数名
  */
-var deleteTriggers = function(functionName) {
+var deleteAllTriggersNamed = function(functionName) {
   var triggers = ScriptApp.getProjectTriggers();
   
   for (var i = 0; i < triggers.length; i++) {
@@ -39,7 +33,6 @@ var deleteTriggers = function(functionName) {
  * 
  * @param {object} 実行時点の時刻を表すDateオブジェクト
  * @return {object} 次のトリガーの時刻を表すDateオブジェクト
- * @customfunction
  */
 var setNextTime = function(date) {
   var hour   = date.getHours();
@@ -70,6 +63,6 @@ var setNextTime = function(date) {
       date.setMinutes(minute);
       break
   };
-  // 代入した日時を返す
+
   return date;
 }

@@ -2,15 +2,15 @@
 var googleSpreadSheet = SpreadsheetApp.getActiveSpreadsheet();
 //今回のCk対象シート
 var routineCheckSheet = googleSpreadSheet.getSheetByName('ルーティンCK');
-var values = routineCheckSheet.getDataRange().getValues();  
+var values            = routineCheckSheet.getDataRange().getValues();  
 
 /* ---------------------ここまでグローバル--------------------- */
 
 //メイン
 function Main() {
   // 実行したら今回のトリガーは一旦消す（→'03_triggerOperation.gs'で夜に再設定）
-  const TARGET_FUNCTION = 'Main';
-  setNextTrigger('Main');
+  const TARGET_FUNCTION_NAME = 'Main';
+  setNextTrigger(TARGET_FUNCTION_NAME);
   
   var today         = Moment.moment();
   var todayRowIndex = getExecutionDateRow(today, routineCheckSheet);  
