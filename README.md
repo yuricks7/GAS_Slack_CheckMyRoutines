@@ -13,7 +13,7 @@ It works on Google Spreadsheet and posts messages to your Slack workspace via Go
 4. Input Hour and Minutes of Routine Time into Column C and D every day.  
 | Date | Days for Week | Hour | Minute |
 
-5. If it's 10:25, 10:55 or 11:55, it checks your input whether finished or not.  
+5. If it's 10:25, 11:25 or 11:55, it checks your input whether finished or not.  
 (You can change the Triggers as you like.)
 
 6. It is depend on the situation.  
