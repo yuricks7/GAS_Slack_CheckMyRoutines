@@ -8,16 +8,18 @@ function postMessage(m) {
 
  //SlackApp インスタンスの取得
   var slackApp = SlackApp.create(token);
-  
+
+/* -----------------------------編集中----------------------------- */
 //  var options = {
 //    channelId:   '#practice',
 //    userName:    'SlackBot練習さん',
 //    message:     m,
 //    botIcon:     ':sunglasses:',
-//    isSlackUser: false 
-//  }; // 絵文字を付けるときはfalseにして(by Slack API)
+//    isSlackUser: false // 絵文字を付けるときはfalseにして(by Slack API)
+//  };
 
 //  SlackApp.postMessage(channelId, text, option)
+/* -----------------------------編集中----------------------------- */
 
   var targetChannelId = '#practice'
 
@@ -26,7 +28,8 @@ function postMessage(m) {
     m, 
     {username: 'SlackBot練習さん'}
   );
-  
+
+/* -----------------------------編集中----------------------------- */
 //  SlackApp.postMessage(
 //    options.channelId, 
 //    options.message, 
@@ -59,3 +62,4 @@ var getSlackReaction = function() {
 var getSlackMsg = function() {
 
 }
+/* -----------------------------編集中----------------------------- */

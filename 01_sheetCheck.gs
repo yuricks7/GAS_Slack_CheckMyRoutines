@@ -48,16 +48,16 @@ function Main() {
  * @customfunction
  */
 var getExecutionDateRow = function(dateMomentObject, targetSheet) {
+  //処理対象の日付（1列目）をログで見やすいように変換しておく  
   var formatToday = dateMomentObject.format('YYYY/MM/DD (ddd)');
   Logger.log('【実行日】 %s', formatToday);  
-
+  
   //3行目から最終行まで走査
   const FIRST_DATA_ROW = 3
   var firstDateIndex   = FIRST_DATA_ROW - 1;
   var lastDateIndex    = values.length - 1;
   for (var i = firstDateIndex; i <= lastDateIndex; i++) {
 
-    //処理対象の日付（1列目）をログで見やすいように変換しておく
     var executionDate = Moment.moment(values[i][0]).format('YYYY/MM/DD (ddd)');
     if (formatToday === executionDate) {
       var todayRow = i + 1;
