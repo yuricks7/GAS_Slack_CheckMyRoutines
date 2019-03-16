@@ -7,7 +7,7 @@ It works on Google Spreadsheet and posts messages to your Slack workspace via Go
 It is written by yuricks7. I'm in Japan.  
 Please Check it below.  
 Twitter: [@yuricks7_nonpro](https://twitter.com/yuricks7_nonpro)  
-my Blog: https://yuru-wota.hateblo.jp/
+my Blog: [https://yuru-wota.hateblo.jp/](https://yuru-wota.hateblo.jp/)
 
 ## How to Use it?
 ### 1. Create a New Worksheet on Google Spreadsheet.
