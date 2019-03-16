@@ -8,7 +8,7 @@ var values            = routineCheckSheet.getDataRange().getValues();
 
 //メイン
 function Main() {
-  // 実行したら今回のトリガーは一旦消す（→'03_triggerOperation.gs'で夜に再設定）
+  // 実行したら今回のトリガーは一旦消して、夜に'03_triggerOperation.gs'で再設定
   const TARGET_FUNCTION_NAME = 'Main';
   setNextTrigger(TARGET_FUNCTION_NAME);
   
@@ -21,9 +21,9 @@ function Main() {
   var currentTimeMessage = '【実行時刻】 ' + now;
   Logger.log(currentTimeMessage);
 
-  var inputTimeObject  = getInputTime(today, todayRowIndex);  
-  var inputTime        = inputTimeObject.inputTime;
-  var blankItem        = inputTimeObject.blankItem;
+  var inputTimeObject = getInputTime(today, todayRowIndex);  
+  var inputTime       = inputTimeObject.inputTime;
+  var blankItem       = inputTimeObject.blankItem;
   
   var slackMessage = joinMessages(
     isCorrectInput(inputTime, now),
@@ -129,8 +129,10 @@ var getBlankItem = function(inputHour, inputMinute) {
 /**
  * 入力できていれば、連結してMomentオブジェクトに変換する
  * 
- * @param {boolean} 入力できているかどうか
+ * @param {string} 空欄の内容 
  * @param {object} 実行日当日のMomentオブジェクト
+ * @param {number} 時
+ * @param {number} 分
  * @return {object} 'HH:mm'形式のMomentオブジェクト
  * @customfunction
  */
@@ -174,20 +176,18 @@ var formatInputTime = function(dateMomentObject, hourValue, minuteValue) {
  * 入力した時刻を表示するメッセージを作成する
  * 
  * @param {object} Momentオブジェクトの'HH:mm'形式
- * @param (string} 空欄の要素
+ * @param {string} 空欄の要素
  * @return {string} 作成したメッセージ
  */
 var createInputTimeMessage = function(targetTime, blankItem) {
-  var inputTimeMessage = '【入力時刻】 ' + targetTime
-
-  return inputTimeMessage;
+  return '【入力時刻】 ' + targetTime;
 };
 
 /**
  * 空欄があるかどうかのメッセージを作成する
  * 
  * @param {object} Momentオブジェクトの'HH:mm'形式
- * @param (string} 空欄の要素
+ * @param {string} 空欄の要素
  * @return {string} 作成したメッセージ
  */
 var createEmptyAlert = function(blankItem) {
@@ -226,8 +226,8 @@ var isCorrectInput = function(targetTimeObject, comparisonTimeObject) {
  * @return {string} 作成したSlackメッセージ
  */
 var joinMessages = function(hasFinishedInput, 
-                                inputTimeMsg,
-                                emptyMsg) {
+                            inputTimeMsg,
+                            emptyMsg)        {
   var m = ''
   switch (hasFinishedInput) {
     case (true):
@@ -240,7 +240,7 @@ var joinMessages = function(hasFinishedInput,
       m = '*'  + inputTimeMsg + '*'
         + '\n' + emptyMsg
         + '\n' + ':thinking_face: <う～ん、時刻は正しくないかもしれませんね…？';
-      break
+      break;
   };
   
   // ログ取り用
