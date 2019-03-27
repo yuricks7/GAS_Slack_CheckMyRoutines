@@ -15,7 +15,7 @@ function setNextTrigger(functionName) {
 }
 
 /**
- * 対象の関数のトリガーを全削除する
+ * 対象関数に紐づいたトリガーを全削除する
  * 
  * @param {string} トリガーを削除する関数名
  */
@@ -32,6 +32,7 @@ var deleteAllTriggersNamed = function(functionName) {
  * 次のトリガーの時刻を設定する（10:25、11:25、11:55）
  * 
  * @param {object} 実行時点の時刻を表すDateオブジェクト
+ * 
  * @return {object} 次のトリガーの時刻を表すDateオブジェクト
  */
 var setNextTime = function(date) {
@@ -42,26 +43,22 @@ var setNextTime = function(date) {
     // 現在10:25なら11:25にセット
     case (hour === 10):
       hour = 11;
-      
       date.setHours(hour);
-      break
+      break;
       
     // 現在11:15なら11:55にセット
     case (hour === 11 && minute === 25):
       minute = 55;
-      
       date.setMinutes(minute);
-      break
+      break;
       
     // 現在11:55（もしくは初回）なら翌日の10:25にセット
     default:
-      date.setDate(date.getDate() + 1);
       hour   = 10;
       minute = 25;
-      
+      date.setDate(date.getDate() + 1);
       date.setHours(hour);
       date.setMinutes(minute);
-      break
   };
 
   return date;
